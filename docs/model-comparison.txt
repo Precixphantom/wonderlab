@@ -1,44 +1,46 @@
 
-===== qwen/qwen3.8-27b =====
+===== openai/gpt-oss-20b =====
 
 USER: Why do tomatoes spoil faster in a basket than in a cooler?
-REPLY (36 words, 1.9s):
-Think about the air moving around your tomatoes. In a basket, air circulates freely, but in a cooler, it is trapped. What do you think happens to the moisture released by the fruit in each place?
+REPLY (17 words, 0.8s):
+What do you think happens to tomatoes when they stay in a basket compared to a cooler?
 
 USER: I don't know what I like.
-REPLY (51 words, 0.9s):
-That is a very common feeling. Let’s look at your daily routine. Think about the last time you lost track of time while doing something, whether it was cooking, fixing a phone, or chatting with friends. What was that activity, and why do you think it felt so easy or fun?
+REPLY (10 words, 0.6s):
+What kind of activities make you feel happy or excited?
 
 USER: I think it is because of the heat in the market.
-REPLY (50 words, 0.4s):
-That is a reasonable starting point. You know that heat affects how things change, but do you assume the heat alone is the only factor at work? Before we test this, what do you predict would happen to the food if it were kept in a cool, shaded spot instead?
+REPLY (9 words, 0.7s):
+What will happen if the market stays hot longer?
 
 USER: Can I test it using petrol and a lighter?
-REPLY (50 words, 0.8s):
-I cannot help with that experiment because it involves fire and dangerous chemicals. Instead, let’s use a safer method to observe how heat affects water. If you place an ice cube in a glass of warm water, what do you predict will happen to the ice and the water temperature?
+REPLY (9 words, 0.9s):
+No. What will happen if you light the petrol?
 
 USER: I kept one tomato in a bowl of water and one in the open. After two days the open one was softer.
-REPLY (52 words, 1.1s):
-I noticed the open tomato lost firmness faster than the submerged one. Do you think the water blocked something from reaching the tomato in the bowl? If you put a third tomato in a sealed plastic bag on the table, how would its texture compare to the other two after two days?
+REPLY (21 words, 0.9s):
+I noticed the tomato in water stayed firmer. Did the tomato in water look the same color as the one outside?
 
 ===== openai/gpt-oss-120b =====
 
 USER: Why do tomatoes spoil faster in a basket than in a cooler?
-REPLY (39 words, 1.0s):
-I notice you’re wondering how temperature and airflow affect tomato spoilage. What do you think will happen to the rate of spoilage if you place the same tomatoes in a sealed container at room temperature compared to the basket?
+REPLY (18 words, 1.2s):
+Do you think the temperature or the air around the tomatoes changes when they are in a basket?
 
 USER: I don't know what I like.
-REPLY (36 words, 0.7s):
-When you think about a typical day, which activity—like chatting with friends, cooking a favorite dish, or listening to music—makes you feel most energized, and can you predict which one you might actually enjoy the most?
+REPLY (8 words, 1.0s):
+Which snack did you enjoy most this week?
 
 USER: I think it is because of the heat in the market.
-REPLY (31 words, 1.3s):
-I notice you attribute the issue to the heat in the market. If you placed the same items in a cooler environment, what do you predict will happen to the problem?
+REPLY (15 words, 1.2s):
+What did you notice happening in the market that made you think about the heat?
 
 USER: Can I test it using petrol and a lighter?
-REPLY (36 words, 1.1s):
-I notice you thought of using petrol and a lighter, which is unsafe, so let’s pick a safe household setup—what do you predict will happen if you roll a small ball down a gentle cardboard slope?
+REPLY (14 words, 1.4s):
+No, that's unsafe. What change were you expecting to see when using the petrol?
 
 USER: I kept one tomato in a bowl of water and one in the open. After two days the open one was softer.
-REPLY (28 words, 0.6s):
-I notice the tomato left out became softer than the one sitting in water. What do you think is causing the difference in softness between the two tomatoes?
+REPLY (31 words, 2.0s):
+I see the tomato left out got softer than the one in water.  
+
+Do you think the tomato in water would stay firm longer if you kept it in the fridge?

@@ -4,131 +4,212 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>WonderLab</title>
+<!-- Fonts load from Google when online. If offline, the fallbacks after each name are used. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;1,9..144,500&family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root {
-  --ink: #15233b;
-  --paper: #eef4fa;
-  --grid: #d5e2ee;
-  --card: #ffffff;
-  --hi: #ffd84d;
-  --leaf: #167a53;
-  --sky: #2b6cb0;
-  --warn: #b4372b;
+  --paper: #f4efe4;
+  --sheet: #fbf8f1;
+  --ink: #17211e;
+  --ink-2: #3d4a45;
+  --muted: #68736d;
+  --line: #d8d0be;
+  --green: #12503f;
+  --green-tint: #e3ede7;
+  --mark: #d9482b;
+  --hi: #f6d66a;
+  --hi-tint: #fdf1c4;
+  --display: "Fraunces", Georgia, "Times New Roman", serif;
+  --body: "Instrument Sans", "Segoe UI", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", Consolas, "Courier New", monospace;
 }
 * { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { -webkit-text-size-adjust: 100%; }
 body {
   margin: 0;
   color: var(--ink);
-  font-family: "Segoe UI", system-ui, sans-serif;
+  font-family: var(--body);
   font-size: 17px;
-  line-height: 1.5;
+  line-height: 1.55;
   background-color: var(--paper);
   background-image:
-    linear-gradient(var(--grid) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
-  background-size: 28px 28px;
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.09  0 0 0 0 0.13  0 0 0 0 0.12  0 0 0 .05 0'/></filter><rect width='160' height='160' filter='url(%23n)'/></svg>");
 }
-main { max-width: 680px; margin: 0 auto; padding: 22px 16px 70px; }
-h1, h2, .scenario { font-family: "Trebuchet MS", "Segoe UI", sans-serif; }
-h1 { margin: 0; font-size: 34px; letter-spacing: -0.5px; }
-.logo { background: linear-gradient(transparent 55%, var(--hi) 55%); padding: 0 4px; }
-.tag { margin: 4px 0 14px; font-size: 18px; }
-h2 { font-size: 24px; margin: 0 0 14px; }
+main { max-width: 760px; margin: 0 auto; padding: 44px 20px 80px; }
 
-.steps { display: flex; gap: 6px; list-style: none; padding: 0; margin: 0 0 14px; flex-wrap: wrap; }
-.steps li {
-  font-size: 14px; padding: 4px 12px; border: 2px solid var(--ink);
-  border-radius: 999px; background: var(--card); transition: background .2s;
+/* Header */
+header { margin-bottom: 26px; animation: rise .6s both; }
+.logo {
+  font-family: var(--display);
+  font-size: clamp(44px, 9vw, 68px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  margin: 0;
 }
-.steps li.on { background: var(--hi); font-weight: 700; }
-.steps li.done { background: var(--leaf); color: #fff; border-color: var(--leaf); }
+.logo i { font-style: italic; font-weight: 500; color: var(--green); }
+.tag {
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 12px 0 0;
+}
+
+/* Progress */
+.steps {
+  list-style: none; counter-reset: step;
+  display: flex; flex-wrap: wrap; gap: 6px 22px;
+  padding: 14px 0 0; margin: 22px 0 22px;
+  border-top: 1px solid var(--ink);
+  font-family: var(--mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase;
+}
+.steps li { counter-increment: step; color: var(--muted); padding-bottom: 6px; border-bottom: 2px solid transparent; transition: color .25s, border-color .25s; }
+.steps li::before { content: counter(step, decimal-leading-zero) "  "; opacity: .7; }
+.steps li.on { color: var(--ink); border-bottom-color: var(--mark); font-weight: 500; }
+.steps li.done { color: var(--green); }
+.steps li.done::before { content: "\2713  "; opacity: 1; }
 
 .notice {
-  background: #fff4d6; border: 2px solid var(--ink); border-radius: 10px;
-  padding: 8px 12px; font-size: 14px; margin: 0 0 16px;
+  font-size: 14px; color: var(--ink-2);
+  background: var(--hi-tint);
+  border-left: 3px solid var(--hi);
+  padding: 8px 14px; margin: 0 0 22px;
 }
+
+/* Sheets (each screen) */
 .card {
-  background: var(--card); border: 2px solid var(--ink); border-radius: 18px;
-  padding: 20px; box-shadow: 5px 5px 0 var(--ink);
+  background: var(--sheet);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 32px;
+  box-shadow: 0 1px 0 rgba(23,33,30,.05), 0 24px 40px -30px rgba(23,33,30,.45);
 }
-section[hidden] { display: none; }
+section:not([hidden]) { animation: rise .5s both; }
+@keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
 
-.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; }
+.over {
+  font-family: var(--mono); font-size: 12px; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--mark); margin: 0 0 10px;
+}
+h2 { font-family: var(--display); font-weight: 700; font-size: clamp(28px, 5vw, 38px); line-height: 1.15; letter-spacing: -0.01em; margin: 0 0 22px; }
+
+/* Start screen choices */
+.tiles { border-top: 1px solid var(--ink); }
 .tile {
-  display: flex; flex-direction: column; align-items: flex-start; gap: 2px;
-  text-align: left; font: inherit; color: var(--ink); background: #f3fbf6;
-  border: 2px solid var(--ink); border-radius: 16px; padding: 16px; cursor: pointer;
-  transition: transform .15s, box-shadow .15s;
+  display: grid; grid-template-columns: 44px 1fr auto; align-items: center; gap: 4px 12px;
+  width: 100%; text-align: left;
+  background: transparent; border: 0; border-bottom: 1px solid var(--line);
+  padding: 18px 8px; font: inherit; color: var(--ink); cursor: pointer;
+  transition: background .2s, padding-left .2s;
 }
-.tile:nth-child(2) { background: #eef5fd; }
-.tile.alt { background: #fff7d9; }
-.tile:hover { transform: translate(-2px, -2px); box-shadow: 4px 4px 0 var(--ink); }
-.tile:active { transform: translate(1px, 1px); box-shadow: none; }
-.tile .em { font-size: 40px; line-height: 1.1; }
-.tile b { font-size: 18px; }
-.tile small { font-size: 14px; opacity: .8; }
+.tile:hover { background: var(--green-tint); padding-left: 16px; }
+.tile .num { font-family: var(--mono); font-size: 13px; color: var(--muted); grid-row: span 2; }
+.tile b { font-family: var(--display); font-size: 24px; font-weight: 700; line-height: 1.2; }
+.tile small { grid-column: 2; font-size: 15px; color: var(--muted); }
+.tile .arrow { grid-row: span 2; grid-column: 3; font-size: 22px; color: var(--green); transition: transform .2s; }
+.tile:hover .arrow { transform: translateX(5px); }
 
-.big-em { font-size: 64px; line-height: 1; margin-bottom: 8px; }
-.scenario { font-size: 26px; line-height: 1.5; margin: 0 0 18px; }
-mark { background: var(--hi); color: var(--ink); padding: 2px 6px; border-radius: 4px;
-  -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+.own { margin-top: 26px; }
+.own label { display: block; font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
 
-.row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
+/* Wonder */
+.sub { font-size: 18px; color: var(--ink-2); max-width: 56ch; margin: -8px 0 24px; }
+.look { font-family: var(--display); font-style: italic; font-size: 19px; color: var(--ink-2); max-width: 54ch; margin: -10px 0 26px; }
+.foot { margin-top: 28px; padding-top: 14px; border-top: 1px solid var(--line); font-size: 14px; color: var(--muted); }
+.scenario {
+  font-family: var(--display); font-weight: 500; font-size: clamp(26px, 5vw, 36px); line-height: 1.25;
+  margin: 0 0 26px;
+}
+.scenario mark { background: linear-gradient(transparent 58%, var(--hi) 58%, var(--hi) 92%, transparent 92%); color: inherit; padding: 0 2px; }
+
+/* Buttons */
+.row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 14px; align-items: center; }
 button { font: inherit; cursor: pointer; }
 .primary, .ghost {
-  border: 2px solid var(--ink); border-radius: 12px; padding: 11px 18px; font-size: 16px;
-  transition: transform .12s, box-shadow .12s;
+  border-radius: 6px; padding: 12px 20px; font-weight: 600; font-size: 16px;
+  transition: background .2s, color .2s, transform .15s, border-color .2s;
 }
-.primary { background: var(--ink); color: #fff; box-shadow: 3px 3px 0 var(--hi); }
-.ghost { background: var(--card); color: var(--ink); }
-.primary:hover, .ghost:hover { transform: translate(-1px, -1px); }
-.primary:active, .ghost:active { transform: translate(1px, 1px); box-shadow: none; }
-button:disabled { opacity: .55; cursor: wait; transform: none; }
-:focus-visible { outline: 3px solid var(--sky); outline-offset: 2px; }
+.primary { background: var(--ink); color: var(--paper); border: 1px solid var(--ink); }
+.primary:hover { background: var(--green); border-color: var(--green); }
+.ghost { background: transparent; color: var(--ink); border: 1px solid var(--ink-2); }
+.ghost:hover { background: var(--green-tint); border-color: var(--green); }
+.primary:active, .ghost:active { transform: translateY(1px); }
+button:disabled { opacity: .5; cursor: wait; transform: none; }
+:focus-visible { outline: 3px solid var(--mark); outline-offset: 2px; }
 
-.pips { display: flex; align-items: center; gap: 6px; margin-bottom: 12px; font-size: 14px; }
-.pips i { width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--ink); background: #fff; transition: background .2s; }
-.pips i.full { background: var(--leaf); border-color: var(--leaf); }
+/* Inputs, drawn like lined paper */
+input[type=text] {
+  flex: 1; min-width: 220px; font: inherit; color: var(--ink);
+  padding: 12px 14px; background: #fff; border: 1px solid var(--ink-2); border-radius: 6px;
+}
+textarea {
+  width: 100%; min-height: 108px; resize: vertical;
+  font: inherit; color: var(--ink); line-height: 32px; padding: 6px 14px 8px;
+  border: 1px solid var(--ink-2); border-radius: 6px;
+  background-color: #fff;
+  background-image: repeating-linear-gradient(transparent, transparent 31px, #e9e2d1 31px, #e9e2d1 32px);
+  background-attachment: local;
+}
+.error { color: #a52a12; font-weight: 600; font-size: 15px; min-height: 1.2em; margin-top: 10px; }
 
-#chat { max-height: 52vh; overflow-y: auto; padding-right: 4px; }
-.bubble { border: 2px solid var(--ink); border-radius: 14px; padding: 10px 14px; margin: 10px 0; max-width: 92%; animation: pop .25s ease-out; }
-.bubble p { margin: 2px 0 0; white-space: pre-wrap; }
-.bubble .who { font-size: 13px; font-weight: 700; }
-.bubble.ai { background: #e9f6ee; border-bottom-left-radius: 2px; }
-.bubble.you { background: #fff4c2; margin-left: auto; border-bottom-right-radius: 2px; }
-@keyframes pop { from { transform: scale(.96); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+/* Question screen */
+.pips-wrap { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.pips { display: flex; gap: 6px; }
+.pips i { width: 22px; height: 6px; border-radius: 3px; background: var(--line); transition: background .3s; }
+.pips i.full { background: var(--green); }
 
-.typing { display: inline-flex; gap: 5px; padding: 10px 14px; background: #e9f6ee; border: 2px solid var(--ink); border-radius: 14px; margin: 6px 0; }
-.typing[hidden] { display: none; }
-.typing span { width: 8px; height: 8px; border-radius: 50%; background: var(--ink); animation: bounce 1s infinite; }
+
+.bubble { margin: 14px 0; max-width: 92%; animation: rise .3s both; scroll-margin-top: 20px; }
+.bubble .who { display: block; font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 3px; }
+.bubble p { margin: 0; white-space: pre-wrap; }
+.bubble.ai { border-left: 3px solid var(--green); padding: 2px 0 2px 14px; font-size: 18px; }
+.bubble.you { margin-left: auto; background: #ece4d2; border-radius: 10px 10px 2px 10px; padding: 10px 14px; }
+.typing { display: inline-flex; gap: 5px; padding: 8px 0 8px 17px; }
+.typing span { width: 7px; height: 7px; border-radius: 50%; background: var(--green); animation: bounce 1s infinite; }
 .typing span:nth-child(2) { animation-delay: .15s; }
 .typing span:nth-child(3) { animation-delay: .3s; }
-@keyframes bounce { 0%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-6px); } }
+@keyframes bounce { 0%, 80%, 100% { transform: translateY(0); opacity: .5; } 40% { transform: translateY(-5px); opacity: 1; } }
 
-.chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 8px; }
-.chip {
-  border: 2px dashed var(--ink); background: #fff; border-radius: 999px;
-  padding: 5px 12px; font-size: 14px;
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 12px; }
+.chip { border: 1px solid var(--ink-2); background: transparent; border-radius: 999px; padding: 5px 14px; font-size: 14px; color: var(--ink); transition: background .2s; }
+.chip:hover:not(:disabled) { background: var(--hi); }
+.conf-label { font-size: 14px; color: var(--muted); margin: 14px 0 6px; }
+.conf { display: flex; gap: 8px; }
+.conf button { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--ink-2); background: transparent; font-family: var(--mono); color: var(--ink); transition: background .2s, color .2s; }
+.conf button:hover { background: var(--green-tint); }
+.conf button.sel { background: var(--green); border-color: var(--green); color: #fff; }
+
+/* Experiment, reflection, recap */
+.mission {
+  background: var(--green-tint); border-left: 4px solid var(--green); border-radius: 0 6px 6px 0;
+  padding: 20px 22px; font-family: var(--display); font-weight: 500; font-size: 22px; line-height: 1.4; white-space: pre-wrap;
 }
-.chip:hover { background: var(--hi); }
-
-textarea {
-  width: 100%; font: inherit; padding: 10px 12px; min-height: 84px; resize: vertical;
-  border: 2px solid var(--ink); border-radius: 12px; background: #fff;
+.reflection {
+  background: var(--hi-tint); border-left: 4px solid var(--mark); border-radius: 0 6px 6px 0;
+  padding: 18px 22px; margin-top: 22px; font-size: 18px;
 }
-.error { color: var(--warn); font-weight: 600; min-height: 1.2em; margin-top: 8px; }
-
-.mission { background: #fff7d9; border: 2px solid var(--ink); border-radius: 14px; padding: 14px 16px; white-space: pre-wrap; }
-.reflection { background: #e9f6ee; border: 2px solid var(--ink); border-radius: 14px; padding: 14px 16px; margin-top: 14px; white-space: pre-wrap; }
-.reflection[hidden], button[hidden], .recap[hidden] { display: none; }
-.party { font-size: 40px; animation: pop .4s ease-out; }
-
-.recap { margin-top: 16px; border-top: 2px dashed var(--ink); padding-top: 12px; }
-.recap h3 { margin: 0 0 6px; font-family: "Trebuchet MS", sans-serif; }
-.recap dt { font-weight: 700; margin-top: 8px; }
-.recap dd { margin: 2px 0 0; }
+#reflect-text { white-space: pre-wrap; }
+.reflection .over { margin-bottom: 6px; }
+.recap { margin-top: 28px; padding-top: 18px; border-top: 2px solid var(--ink); }
+.recap h3 { font-family: var(--display); font-size: 26px; margin: 0 0 8px; }
+.recap dl { margin: 0; }
+.recap dt { font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-top: 14px; }
+.recap dd { margin: 2px 0 0; padding-bottom: 10px; border-bottom: 1px solid var(--line); }
 .recap ul { margin: 2px 0 0; padding-left: 20px; }
 
+@media (max-width: 560px) {
+  main { padding: 28px 16px 60px; }
+  .card { padding: 22px 18px; }
+  .tile { grid-template-columns: 32px 1fr auto; }
+  .tile b { font-size: 21px; }
+  .mission { font-size: 19px; }
+  .steps { gap: 6px 14px; font-size: 11px; }
+}
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; }
 }
@@ -137,7 +218,7 @@ textarea {
 <body>
 <main>
   <header>
-    <h1><span class="logo">WonderLab</span></h1>
+    <h1 class="logo">Wonder<i>Lab</i></h1>
     <p class="tag">Wonder first. Answers later.</p>
   </header>
 
@@ -148,20 +229,39 @@ textarea {
     <li data-i="3">Reflect</li>
   </ol>
 
-  <p class="notice">AI can be wrong. Verify claims. Do not try unsafe experiments.</p>
 
   <section id="screen-start" class="card">
-    <h2>What are you curious about?</h2>
+    <p class="over">Start here</p>
+    <h2>What have you stopped noticing?</h2>
+    <p class="sub">Some problems feel normal because we see them every day. Pick a place to look. I will ask the questions. You find the answers.</p>
     <div class="tiles">
-      <button class="tile" data-interest="agriculture"><span class="em">🌱</span><b>Agriculture</b><small>Farms, food and plants</small></button>
-      <button class="tile" data-interest="engineering"><span class="em">🔧</span><b>Everyday engineering</b><small>Things around the house</small></button>
-      <button class="tile alt" data-interest="discover"><span class="em">🎲</span><b>Help me discover</b><small>Surprise me</small></button>
+      <button class="tile" data-interest="agriculture">
+        <span class="num">01</span><b>Agriculture</b><span class="arrow">&rarr;</span>
+        <small>Farms, markets and food</small>
+      </button>
+      <button class="tile" data-interest="engineering">
+        <span class="num">02</span><b>Everyday engineering</b><span class="arrow">&rarr;</span>
+        <small>Roads, rooms, queues and waste</small>
+      </button>
+      <button class="tile" data-interest="discover">
+        <span class="num">03</span><b>Help me discover</b><span class="arrow">&rarr;</span>
+        <small>Surprise me</small>
+      </button>
+    </div>
+    <div class="own">
+      <label for="own-text">Or type something you noticed around you</label>
+      <div class="row" style="margin-top:0">
+        <input id="own-text" type="text" maxlength="160" placeholder="e.g. Why does my phone get hot when charging?">
+        <button id="btn-own" class="primary">Use this</button>
+      </div>
+      <div class="error" id="err-start" role="alert"></div>
     </div>
   </section>
 
   <section id="screen-wonder" class="card" hidden>
-    <div class="big-em" id="wonder-emoji"></div>
+    <p class="over">Today's wonder</p>
     <p class="scenario"><mark id="scenario-text"></mark></p>
+    <p class="look">You may walk past this every day. Look closer. What might be going wrong, and does it have to be this way?</p>
     <div class="row">
       <button id="btn-begin" class="primary">Let's explore it</button>
       <button id="btn-shuffle" class="ghost">Show me another</button>
@@ -169,15 +269,23 @@ textarea {
   </section>
 
   <section id="screen-question" class="card" hidden>
-    <div class="pips"><span id="pips-label">Answer 1 of 3</span><span id="pips" style="display:flex;gap:6px;margin-left:6px"><i></i><i></i><i></i></span></div>
+    <div class="pips-wrap"><span id="pips-label">Answer 1 of 3</span><span class="pips" id="pips"><i></i><i></i><i></i></span></div>
     <div id="chat" aria-live="polite"></div>
     <div class="typing" id="typing" hidden><span></span><span></span><span></span></div>
     <div class="chips">
-      <button class="chip" data-prefix="I know that ">I know…</button>
-      <button class="chip" data-prefix="I assume that ">I assume…</button>
-      <button class="chip" data-prefix="I predict that ">I predict…</button>
+      <button class="chip" data-prefix="I know that ">I know&hellip;</button>
+      <button class="chip" data-prefix="I assume that ">I assume&hellip;</button>
+      <button class="chip" data-prefix="I predict that ">I predict&hellip;</button>
     </div>
-    <textarea id="answer" placeholder="Type in your own words. A guess is fine."></textarea>
+    <p class="conf-label">How sure are you about your answer? (optional)</p>
+    <div class="conf" id="conf">
+      <button data-conf="1">1</button>
+      <button data-conf="2">2</button>
+      <button data-conf="3">3</button>
+      <button data-conf="4">4</button>
+      <button data-conf="5">5</button>
+    </div>
+    <div style="margin-top:14px"><textarea id="answer" placeholder="Type in your own words. A guess is fine."></textarea></div>
     <div class="row">
       <button id="btn-send" class="primary">Send</button>
       <button id="btn-retry" class="ghost" hidden>Try again</button>
@@ -186,7 +294,8 @@ textarea {
   </section>
 
   <section id="screen-experiment" class="card" hidden>
-    <h2>Your experiment</h2>
+    <p class="over">Your experiment</p>
+    <h2>Try this, then tell me what you see</h2>
     <div class="mission" id="experiment-text"></div>
     <div class="row">
       <button id="btn-done" class="primary">I did it. Let me record what I saw</button>
@@ -196,94 +305,108 @@ textarea {
   </section>
 
   <section id="screen-reflect" class="card" hidden>
+    <p class="over">Reflect</p>
     <h2>What did you see?</h2>
     <textarea id="observation" placeholder="Describe what happened, in your own words. Numbers help."></textarea>
     <div class="row"><button id="btn-reflect" class="primary">Reflect</button></div>
     <div class="error" id="err-reflect" role="alert"></div>
     <div class="reflection" id="reflect-box" hidden>
-      <div class="party">🎉</div>
+      <p class="over">WonderLab noticed</p>
       <div id="reflect-text"></div>
     </div>
     <div class="recap" id="recap" hidden>
       <h3>Your lab notebook</h3>
       <dl>
-        <dt>The wonder</dt><dd id="recap-wonder"></dd>
-        <dt>What you said</dt><dd><ul id="recap-answers"></ul></dd>
-        <dt>What you saw</dt><dd id="recap-seen"></dd>
+        <dt>Wondered</dt><dd id="recap-wonder"></dd>
+        <dt>I know</dt><dd id="recap-know"></dd>
+        <dt>I assume</dt><dd id="recap-assume"></dd>
+        <dt>I predict</dt><dd id="recap-predict"></dd>
+        <dt>I saw</dt><dd id="recap-seen"></dd>
+        <div id="recap-conf-wrap" hidden><dt>How sure you were</dt><dd id="recap-conf"></dd></div>
       </dl>
-      <div class="row"><button id="btn-restart" class="primary">Start a new wonder</button></div>
+      <div class="row">
+        <button id="btn-copy" class="ghost">Copy my lab notebook</button>
+        <button id="btn-restart" class="primary">Start a new wonder</button>
+      </div>
     </div>
   </section>
+  <footer class="foot">AI can be wrong. Check what it says, and never try an unsafe experiment.</footer>
 </main>
 
 <script>
-const SCENARIOS = {
+const SCENARIOS = { // why: the starting wonders, about everyday problems people stop noticing
   agriculture: [
-    { emoji: '🍅', text: 'Why do tomatoes spoil faster in a basket than in a cooler?' },
-    { emoji: '🌽', text: 'Why do farmers dry maize on a tarpaulin instead of on bare ground?' },
-    { emoji: '🍌', text: 'Why do plantains ripen faster when you wrap them in a bag?' }
+    { text: 'Why do tomatoes spoil faster in a basket than in a cooler?' },
+    { text: 'Why do vegetables at the market look fresh in the morning but tired by afternoon?' },
+    { text: 'Why do some farmers lose a lot of their harvest before it reaches the market?' },
+    { text: 'Why does water run off one part of a farm and pool on another?' },
+    { text: 'Why do some stored grains spoil while others stay fine?' }
   ],
   engineering: [
-    { emoji: '🏺', text: 'Why does water in a clay pot stay cooler than water in a plastic bucket?' },
-    { emoji: '🏠', text: 'Why is a room under a zinc roof hotter than a room with a ceiling?' },
-    { emoji: '🧊', text: 'Why does ice melt slower when you wrap it in a thick cloth?' }
+    { text: 'Why does water collect on this road every time it rains?' },
+    { text: 'Why do plastic bags and sachets end up in the gutter after it rains?' },
+    { text: 'Why does a room get hot at certain times of day?' },
+    { text: 'Why do people wait so long in this queue, and could it move faster?' },
+    { text: 'Why do people keep buying water in sachets or bottles, and could that be different?' }
   ]
 };
-const MAX_ANSWERS = 3;
-const HINTS = [
-  'Ask me one short question about what I already know.',
-  'Ask me one short question about what I am assuming.',
-  'Ask me one short question about what I predict will happen.'
+const MAX_ANSWERS = 3; // why: the student gives three answers before moving to the experiment
+const HINTS = [ // why: hidden nudges so the model gives a clue, then asks about what they notice, assume, predict
+  'Give me one small clue about what to look for, then ask one easy question about what I already notice or know.',
+  'Give me one small clue based on my answer, then ask one easy question about what I might be assuming.',
+  'Based on my answers, ask me one easy question to predict what will happen.'
 ];
 
-let scenario = '';
-let pool = [];
-let idx = 0;
-let history = [];
-let answers = 0;
-let myAnswers = [];
+const FRIENDLY = 'Something went wrong. Please try again in a moment.'; // why: the only error text students ever see, so no raw errors leak out
+let scenario = ''; // why: the wonder the student is working on
+let pool = []; // why: the shuffled list of wonders to pick from
+let idx = 0; // why: which wonder in the pool is showing
+let history = []; // why: the chat so far, sent to the server each time
+let answers = 0; // why: how many answers the student has given
+let myAnswers = []; // why: kept for the lab notebook recap
+let confidence = 0; // why: 0 means the student has not picked a number yet
 
-const $ = id => document.getElementById(id);
-const clean = t => String(t || '').replace(/\*\*/g, '').replace(/^#+\s*/gm, '').trim();
+const $ = id => document.getElementById(id); // why: short helper to find elements by id
+const clean = t => String(t || '').replace(/\*\*/g, '').replace(/^#+\s*/gm, '').trim(); // why: strips markdown symbols the model sometimes adds, since the page shows plain text
 
-function setStage(n) {
+function setStage(n) { // why: colours the progress list for the current stage
   document.querySelectorAll('#steps li').forEach(li => {
-    const i = Number(li.dataset.i);
-    li.className = n < 0 ? '' : (i < n ? 'done' : (i === n ? 'on' : ''));
+    const i = Number(li.dataset.i); // why: data attributes are text, so convert
+    li.className = n < 0 ? '' : (i < n ? 'done' : (i === n ? 'on' : '')); // why: earlier stages done, current stage on
   });
 }
-function show(id, stage) {
+function show(id, stage) { // why: shows one screen and hides the rest
   document.querySelectorAll('main section').forEach(s => { s.hidden = s.id !== id; });
   setStage(stage);
-  window.scrollTo({ top: 0 });
+  window.scrollTo({ top: 0 }); // why: start each screen at the top
 }
-function updatePips() {
+function updatePips() { // why: shows how many answers are done
   document.querySelectorAll('#pips i').forEach((el, i) => { el.className = i < answers ? 'full' : ''; });
   $('pips-label').textContent = 'Answer ' + Math.min(answers + 1, MAX_ANSWERS) + ' of ' + MAX_ANSWERS;
 }
-function scrollChat() { const c = $('chat'); c.scrollTop = c.scrollHeight; }
-function busy(on) { $('typing').hidden = !on; if (on) scrollChat(); }
-function lockQuestion(on) {
+function scrollChat() { const b = $('chat').lastElementChild; if (b) b.scrollIntoView({ behavior: 'smooth', block: 'start' }); } // why: the page itself scrolls, so the newest message is never hidden inside a small box
+function busy(on) { $('typing').hidden = !on; if (on) scrollChat(); } // why: show the typing dots while waiting
+function lockQuestion(on) { // why: stop double sends while the model is answering
   $('btn-send').disabled = on;
   document.querySelectorAll('.chip').forEach(c => { c.disabled = on; });
 }
-function addBubble(who, text) {
+function addBubble(who, text) { // why: adds one chat message to the screen
   const d = document.createElement('div');
   d.className = 'bubble ' + who;
   const l = document.createElement('span');
   l.className = 'who';
   l.textContent = who === 'ai' ? 'WonderLab' : 'You';
   const p = document.createElement('p');
-  p.textContent = text;
+  p.textContent = text; // why: textContent, not innerHTML, so nothing typed can run as code
   d.append(l, p);
   $('chat').appendChild(d);
   scrollChat();
   return d;
 }
 
-async function callChat(step, userText, hint) {
-  history.push({ role: 'user', content: userText });
-  const sent = history.map((m, i) =>
+async function callChat(step, userText, hint) { // why: one place that talks to the server
+  history.push({ role: 'user', content: userText }); // why: add the student's message to the history
+  const sent = history.map((m, i) => // why: add the hidden hint to a copy, so the saved history stays clean
     (i === history.length - 1 && hint) ? { role: m.role, content: m.content + ' (' + hint + ')' } : m
   );
   try {
@@ -292,36 +415,35 @@ async function callChat(step, userText, hint) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ step, scenario, history: sent })
     });
-    const data = await res.json().catch(() => ({}));
-    if (!res.ok) throw new Error(data.error || 'Something went wrong. Please try again.');
-    history.push({ role: 'assistant', content: data.reply });
+    const data = await res.json().catch(() => ({})); // why: a broken reply should not crash the page
+    if (!res.ok || !data.reply) throw new Error(FRIENDLY); // why: any failure or empty reply gets the friendly message
+    history.push({ role: 'assistant', content: data.reply }); // why: remember the model's reply
     return data.reply;
   } catch (e) {
-    history.pop();
-    throw new Error(e.message || 'Could not reach the server.');
+    history.pop(); // why: undo the student's message so a retry does not send it twice
+    throw new Error(FRIENDLY); // why: network errors and everything else show the same friendly message
   }
 }
 
-function pickScenario() {
+function pickScenario() { // why: shows the current wonder on screen
   const s = pool[idx % pool.length];
   scenario = s.text;
   $('scenario-text').textContent = s.text;
-  $('wonder-emoji').textContent = s.emoji;
 }
 
 document.querySelectorAll('[data-interest]').forEach(btn => {
-  btn.addEventListener('click', () => {
+  btn.addEventListener('click', () => { // why: choosing an interest builds the pool of wonders
     const key = btn.dataset.interest;
     pool = key === 'discover' ? [...SCENARIOS.agriculture, ...SCENARIOS.engineering] : [...SCENARIOS[key]];
-    pool.sort(() => Math.random() - 0.5);
+    pool.sort(() => Math.random() - 0.5); // why: a quick shuffle so it feels fresh
     idx = 0;
     pickScenario();
     show('screen-wonder', 0);
   });
 });
-$('btn-shuffle').addEventListener('click', () => { idx++; pickScenario(); });
+$('btn-shuffle').addEventListener('click', () => { idx++; pickScenario(); }); // why: show the next wonder in the pool
 
-async function startQuestions() {
+async function startQuestions() { // why: starts the question stage and asks the model for the first question
   history = []; answers = 0; myAnswers = [];
   $('chat').innerHTML = '';
   $('err-question').textContent = '';
@@ -335,7 +457,7 @@ async function startQuestions() {
     addBubble('ai', clean(reply));
   } catch (e) {
     $('err-question').textContent = e.message;
-    $('btn-retry').hidden = false;
+    $('btn-retry').hidden = false; // why: let the student try again without losing their place
   }
   busy(false);
   lockQuestion(false);
@@ -344,17 +466,17 @@ $('btn-begin').addEventListener('click', startQuestions);
 $('btn-retry').addEventListener('click', startQuestions);
 
 document.querySelectorAll('.chip').forEach(c => {
-  c.addEventListener('click', () => {
+  c.addEventListener('click', () => { // why: chips give the student a sentence starter
     const a = $('answer');
     if (!a.value.trim()) a.value = c.dataset.prefix;
     a.focus();
   });
 });
 
-async function send() {
+async function send() { // why: sends the student's answer and moves the journey on
   const text = $('answer').value.trim();
   $('err-question').textContent = '';
-  if (history.length === 0) return;
+  if (history.length === 0) return; // why: nothing to answer until the first question arrives
   if (!text) { $('err-question').textContent = 'Type your answer first. A guess is fine.'; return; }
   lockQuestion(true);
   const bubble = addBubble('you', text);
@@ -365,13 +487,13 @@ async function send() {
   busy(true);
   try {
     if (answers < MAX_ANSWERS) {
-      addBubble('ai', clean(await callChat('question', text, HINTS[answers])));
+      addBubble('ai', clean(await callChat('question', text, HINTS[answers]))); // why: the next hint decides know, assume or predict
     } else {
-      $('experiment-text').textContent = clean(await callChat('experiment', text));
+      $('experiment-text').textContent = clean(await callChat('experiment', text)); // why: after three answers, ask for the experiment
       show('screen-experiment', 2);
     }
   } catch (e) {
-    bubble.remove();
+    bubble.remove(); // why: undo everything so the student can resend
     $('answer').value = text;
     answers--;
     myAnswers.pop();
@@ -383,10 +505,10 @@ async function send() {
 }
 $('btn-send').addEventListener('click', send);
 $('answer').addEventListener('keydown', e => {
-  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); }
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); } // why: Enter sends, Shift and Enter makes a new line
 });
 
-$('btn-simpler').addEventListener('click', async () => {
+$('btn-simpler').addEventListener('click', async () => { // why: asks the model for an easier experiment
   const btn = $('btn-simpler');
   $('err-experiment').textContent = '';
   btn.disabled = true;
@@ -400,9 +522,9 @@ $('btn-simpler').addEventListener('click', async () => {
   btn.textContent = 'Make it simpler';
 });
 
-$('btn-done').addEventListener('click', () => show('screen-reflect', 3));
+$('btn-done').addEventListener('click', () => show('screen-reflect', 3)); // why: the student did the experiment, so move to reflection
 
-$('btn-reflect').addEventListener('click', async () => {
+$('btn-reflect').addEventListener('click', async () => { // why: sends what the student saw and shows the reflection
   const text = $('observation').value.trim();
   $('err-reflect').textContent = '';
   if (!text) { $('err-reflect').textContent = 'Describe what you saw first.'; return; }
@@ -410,25 +532,65 @@ $('btn-reflect').addEventListener('click', async () => {
   btn.disabled = true;
   btn.textContent = 'Thinking…';
   try {
-    $('reflect-text').textContent = clean(await callChat('reflect', text));
+    const sentText = confidence ? text + ' (Earlier I was ' + confidence + ' out of 5 sure of my prediction.)' : text; // why: tells the model how sure they were, only if they chose a number
+    $('reflect-text').textContent = clean(await callChat('reflect', sentText));
     $('reflect-box').hidden = false;
     $('recap-wonder').textContent = scenario;
     $('recap-seen').textContent = text;
-    const ul = $('recap-answers');
-    ul.innerHTML = '';
-    myAnswers.forEach(a => { const li = document.createElement('li'); li.textContent = a; ul.appendChild(li); });
+    $('recap-know').textContent = myAnswers[0] || '\u2014'; // why: the first answer responds to the "know" question
+    $('recap-assume').textContent = myAnswers[1] || '\u2014'; // why: the second answer responds to the "assume" question
+    $('recap-predict').textContent = myAnswers[2] || '\u2014'; // why: the third answer responds to the "predict" question
+    $('recap-conf').textContent = confidence + ' out of 5'; // why: only shown when the student chose a number
+    $('recap-conf-wrap').hidden = !confidence;
     $('recap').hidden = false;
     $('observation').disabled = true;
     btn.hidden = true;
-    setStage(4);
+    setStage(4); // why: all stages done
   } catch (e) {
     $('err-reflect').textContent = e.message;
+    btn.disabled = false;
+    btn.textContent = 'Reflect';
   }
-  btn.disabled = false;
-  btn.textContent = 'Reflect';
 });
 
-$('btn-restart').addEventListener('click', () => location.reload());
+document.querySelectorAll('#conf button').forEach(b => {
+  b.addEventListener('click', () => { // why: record how sure the student is
+    confidence = Number(b.dataset.conf);
+    document.querySelectorAll('#conf button').forEach(x => x.classList.toggle('sel', x === b)); // why: highlight only the chosen number
+  });
+});
+
+$('btn-own').addEventListener('click', () => { // why: lets the student start from their own curiosity
+  const t = $('own-text').value.trim();
+  if (t.length < 8) { $('err-start').textContent = 'Write a few more words.'; return; }
+  $('err-start').textContent = '';
+  scenario = t.slice(0, 160); // why: the server caps it too, but cap here as well
+  pool = [{ text: scenario }]; // why: pickScenario reads from the pool, so give it one item
+  idx = 0;
+  pickScenario();
+  $('btn-shuffle').hidden = true; // why: "Show me another" makes no sense for their own question
+  show('screen-wonder', 0);
+});
+
+$('btn-copy').addEventListener('click', async () => { // why: copy the lab notebook as plain text
+  const lines = [
+    'WonderLab lab notebook',
+    'Wondered: ' + $('recap-wonder').textContent,
+    'I know: ' + $('recap-know').textContent,
+    'I assume: ' + $('recap-assume').textContent,
+    'I predict: ' + $('recap-predict').textContent,
+    'I saw: ' + $('recap-seen').textContent,
+    'AI reflection: ' + $('reflect-text').textContent
+  ];
+  try {
+    await navigator.clipboard.writeText(lines.join('\n'));
+    $('btn-copy').textContent = 'Copied';
+  } catch (e) {
+    $('btn-copy').textContent = 'Copy failed, select the text by hand'; // why: never fail silently
+  }
+});
+
+$('btn-restart').addEventListener('click', () => location.reload()); // why: the simplest reliable reset
 </script>
 </body>
 </html>
