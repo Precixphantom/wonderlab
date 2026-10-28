@@ -1,0 +1,70 @@
+
+===== qwen/qwen3.8-27b =====
+
+USER: Why do tomatoes spoil faster in a basket than in a cooler?
+REPLY (48 words, 0.8s):
+Let's test your intuition. Before we look at the science, what do you predict happens to the temperature inside a woven basket versus a cooler box on a hot Lagos afternoon?
+
+Also, what do you assume is the main difference in how the tomatoes "breathe" in each container?
+
+USER: I don't know what I like.
+REPLY (50 words, 0.6s):
+That is a very common starting point. Let’s find a spark.
+
+Think about a time in the last week when you lost track of time because you were focused on something. It could be cooking jollof rice, fixing a phone, or watching a football match.
+
+What was that specific activity?
+
+USER: I think it is because of the heat in the market.
+REPLY (54 words, 0.6s):
+Interesting theory! Let’s test that assumption.
+
+Imagine you have two identical bottles of water. One sits in the hot market sun, the other stays in a cool, shaded corner.
+
+Before we do anything, what do you predict will happen to the water in each bottle after one hour? Which one changes more, and why?
+
+USER: Can I test it using petrol and a lighter?
+REPLY (55 words, 0.5s):
+I cannot allow that. Using petrol and a lighter is dangerous and involves fire, which is unsafe.
+
+Let’s try a safer approach. Think about a common Nigerian drink like palm wine or sugarcane juice.
+
+What do you predict would happen if you left a cup of that drink out in the sun for a day?
+
+USER: I kept one tomato in a bowl of water and one in the open. After two days the open one was softer.
+REPLY (55 words, 1.4s):
+Interesting observation! Before we test why, let's look at your assumptions.
+
+Do you think the water in the bowl stopped the tomato from losing moisture, or did it actually make the tomato absorb more water?
+
+What do you predict would happen if you put a third tomato in a sealed plastic bag for two days?
+
+===== openai/gpt-oss-120b =====
+
+USER: Why do tomatoes spoil faster in a basket than in a cooler?
+REPLY (53 words, 0.8s):
+What do you think makes a basket‑stored tomato go bad quicker than one kept in a cooler?  
+- Which conditions (temperature, airflow, humidity…) do you assume differ between the two places?  
+- Based on those ideas, can you predict what will happen to a tomato if you change just one of those factors?
+
+USER: I don't know what I like.
+REPLY (45 words, 0.9s):
+What’s one thing you’ve tried—like a hobby, sport, or food—that made you feel curious or excited, even a little? What do you think that experience says about what you might enjoy, and what would you predict could happen if you explored it a bit more?
+
+USER: I think it is because of the heat in the market.
+REPLY (39 words, 0.8s):
+What do you know about how the heat in a bustling market—like the Lagos Balogun market—might affect the items sold there, what are you assuming is happening, and what do you predict would change if the temperature were lower?
+
+USER: Can I test it using petrol and a lighter?
+REPLY (55 words, 1.1s):
+I can’t recommend using petrol and a lighter—it’s a fire hazard and unsafe.  
+A safer, cheap option is to explore the principle with a balloon‑filled bottle and warm water: the air expands and can push the balloon out.  
+
+What do you predict will happen to the balloon when you pour warm water into the bottle?
+
+USER: I kept one tomato in a bowl of water and one in the open. After two days the open one was softer.
+REPLY (57 words, 0.6s):
+What do you think is happening to the tomatoes?  
+- What do you already know about how water and air affect fruit?  
+- What are you assuming is causing the open‑air tomato to get softer?  
+- Based on that, can you predict what would happen if you placed *both* tomatoes in water for the same two days?

@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WonderLab</title>
+<style>
+:root {
+  --ink: #15233b;
+  --paper: #eef4fa;
+  --grid: #d5e2ee;
+  --card: #ffffff;
+  --hi: #ffd84d;
+  --leaf: #167a53;
+  --sky: #2b6cb0;
+  --warn: #b4372b;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  color: var(--ink);
+  font-family: "Segoe UI", system-ui, sans-serif;
+  font-size: 17px;
+  line-height: 1.5;
+  background-color: var(--paper);
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+main { max-width: 680px; margin: 0 auto; padding: 22px 16px 70px; }
+h1, h2, .scenario { font-family: "Trebuchet MS", "Segoe UI", sans-serif; }
+h1 { margin: 0; font-size: 34px; letter-spacing: -0.5px; }
+.logo { background: linear-gradient(transparent 55%, var(--hi) 55%); padding: 0 4px; }
+.tag { margin: 4px 0 14px; font-size: 18px; }
+h2 { font-size: 24px; margin: 0 0 14px; }
+
+.steps { display: flex; gap: 6px; list-style: none; padding: 0; margin: 0 0 14px; flex-wrap: wrap; }
+.steps li {
+  font-size: 14px; padding: 4px 12px; border: 2px solid var(--ink);
+  border-radius: 999px; background: var(--card); transition: background .2s;
+}
+.steps li.on { background: var(--hi); font-weight: 700; }
+.steps li.done { background: var(--leaf); color: #fff; border-color: var(--leaf); }
+
+.notice {
+  background: #fff4d6; border: 2px solid var(--ink); border-radius: 10px;
+  padding: 8px 12px; font-size: 14px; margin: 0 0 16px;
+}
+.card {
+  background: var(--card); border: 2px solid var(--ink); border-radius: 18px;
+  padding: 20px; box-shadow: 5px 5px 0 var(--ink);
+}
+section[hidden] { display: none; }
+
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; }
+.tile {
+  display: flex; flex-direction: column; align-items: flex-start; gap: 2px;
+  text-align: left; font: inherit; color: var(--ink); background: #f3fbf6;
+  border: 2px solid var(--ink); border-radius: 16px; padding: 16px; cursor: pointer;
+  transition: transform .15s, box-shadow .15s;
+}
+.tile:nth-child(2) { background: #eef5fd; }
+.tile.alt { background: #fff7d9; }
+.tile:hover { transform: translate(-2px, -2px); box-shadow: 4px 4px 0 var(--ink); }
+.tile:active { transform: translate(1px, 1px); box-shadow: none; }
+.tile .em { font-size: 40px; line-height: 1.1; }
+.tile b { font-size: 18px; }
+.tile small { font-size: 14px; opacity: .8; }
+
+.big-em { font-size: 64px; line-height: 1; margin-bottom: 8px; }
+.scenario { font-size: 26px; line-height: 1.5; margin: 0 0 18px; }
+mark { background: var(--hi); color: var(--ink); padding: 2px 6px; border-radius: 4px;
+  -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+
+.row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
+button { font: inherit; cursor: pointer; }
+.primary, .ghost {
+  border: 2px solid var(--ink); border-radius: 12px; padding: 11px 18px; font-size: 16px;
+  transition: transform .12s, box-shadow .12s;
+}
+.primary { background: var(--ink); color: #fff; box-shadow: 3px 3px 0 var(--hi); }
+.ghost { background: var(--card); color: var(--ink); }
+.primary:hover, .ghost:hover { transform: translate(-1px, -1px); }
+.primary:active, .ghost:active { transform: translate(1px, 1px); box-shadow: none; }
+button:disabled { opacity: .55; cursor: wait; transform: none; }
+:focus-visible { outline: 3px solid var(--sky); outline-offset: 2px; }
+
+.pips { display: flex; align-items: center; gap: 6px; margin-bottom: 12px; font-size: 14px; }
+.pips i { width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--ink); background: #fff; transition: background .2s; }
+.pips i.full { background: var(--leaf); border-color: var(--leaf); }
+
+#chat { max-height: 52vh; overflow-y: auto; padding-right: 4px; }
+.bubble { border: 2px solid var(--ink); border-radius: 14px; padding: 10px 14px; margin: 10px 0; max-width: 92%; animation: pop .25s ease-out; }
+.bubble p { margin: 2px 0 0; white-space: pre-wrap; }
+.bubble .who { font-size: 13px; font-weight: 700; }
+.bubble.ai { background: #e9f6ee; border-bottom-left-radius: 2px; }
+.bubble.you { background: #fff4c2; margin-left: auto; border-bottom-right-radius: 2px; }
+@keyframes pop { from { transform: scale(.96); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+.typing { display: inline-flex; gap: 5px; padding: 10px 14px; background: #e9f6ee; border: 2px solid var(--ink); border-radius: 14px; margin: 6px 0; }
+.typing[hidden] { display: none; }
+.typing span { width: 8px; height: 8px; border-radius: 50%; background: var(--ink); animation: bounce 1s infinite; }
+.typing span:nth-child(2) { animation-delay: .15s; }
+.typing span:nth-child(3) { animation-delay: .3s; }
+@keyframes bounce { 0%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-6px); } }
+
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 8px; }
+.chip {
+  border: 2px dashed var(--ink); background: #fff; border-radius: 999px;
+  padding: 5px 12px; font-size: 14px;
+}
+.chip:hover { background: var(--hi); }
+
+textarea {
+  width: 100%; font: inherit; padding: 10px 12px; min-height: 84px; resize: vertical;
+  border: 2px solid var(--ink); border-radius: 12px; background: #fff;
+}
+.error { color: var(--warn); font-weight: 600; min-height: 1.2em; margin-top: 8px; }
+
+.mission { background: #fff7d9; border: 2px solid var(--ink); border-radius: 14px; padding: 14px 16px; white-space: pre-wrap; }
+.reflection { background: #e9f6ee; border: 2px solid var(--ink); border-radius: 14px; padding: 14px 16px; margin-top: 14px; white-space: pre-wrap; }
+.reflection[hidden], button[hidden], .recap[hidden] { display: none; }
+.party { font-size: 40px; animation: pop .4s ease-out; }
+
+.recap { margin-top: 16px; border-top: 2px dashed var(--ink); padding-top: 12px; }
+.recap h3 { margin: 0 0 6px; font-family: "Trebuchet MS", sans-serif; }
+.recap dt { font-weight: 700; margin-top: 8px; }
+.recap dd { margin: 2px 0 0; }
+.recap ul { margin: 2px 0 0; padding-left: 20px; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1><span class="logo">WonderLab</span></h1>
+    <p class="tag">Wonder first. Answers later.</p>
+  </header>
+
+  <ol class="steps" id="steps" aria-label="Your progress">
+    <li data-i="0">Wonder</li>
+    <li data-i="1">Question</li>
+    <li data-i="2">Experiment</li>
+    <li data-i="3">Reflect</li>
+  </ol>
+
+  <p class="notice">AI can be wrong. Verify claims. Do not try unsafe experiments.</p>
+
+  <section id="screen-start" class="card">
+    <h2>What are you curious about?</h2>
+    <div class="tiles">
+      <button class="tile" data-interest="agriculture"><span class="em">🌱</span><b>Agriculture</b><small>Farms, food and plants</small></button>
+      <button class="tile" data-interest="engineering"><span class="em">🔧</span><b>Everyday engineering</b><small>Things around the house</small></button>
+      <button class="tile alt" data-interest="discover"><span class="em">🎲</span><b>Help me discover</b><small>Surprise me</small></button>
+    </div>
+  </section>
+
+  <section id="screen-wonder" class="card" hidden>
+    <div class="big-em" id="wonder-emoji"></div>
+    <p class="scenario"><mark id="scenario-text"></mark></p>
+    <div class="row">
+      <button id="btn-begin" class="primary">Let's explore it</button>
+      <button id="btn-shuffle" class="ghost">Show me another</button>
+    </div>
+  </section>
+
+  <section id="screen-question" class="card" hidden>
+    <div class="pips"><span id="pips-label">Answer 1 of 3</span><span id="pips" style="display:flex;gap:6px;margin-left:6px"><i></i><i></i><i></i></span></div>
+    <div id="chat" aria-live="polite"></div>
+    <div class="typing" id="typing" hidden><span></span><span></span><span></span></div>
+    <div class="chips">
+      <button class="chip" data-prefix="I know that ">I know…</button>
+      <button class="chip" data-prefix="I assume that ">I assume…</button>
+      <button class="chip" data-prefix="I predict that ">I predict…</button>
+    </div>
+    <textarea id="answer" placeholder="Type in your own words. A guess is fine."></textarea>
+    <div class="row">
+      <button id="btn-send" class="primary">Send</button>
+      <button id="btn-retry" class="ghost" hidden>Try again</button>
+    </div>
+    <div class="error" id="err-question" role="alert"></div>
+  </section>
+
+  <section id="screen-experiment" class="card" hidden>
+    <h2>Your experiment</h2>
+    <div class="mission" id="experiment-text"></div>
+    <div class="row">
+      <button id="btn-done" class="primary">I did it. Let me record what I saw</button>
+      <button id="btn-simpler" class="ghost">Make it simpler</button>
+    </div>
+    <div class="error" id="err-experiment" role="alert"></div>
+  </section>
+
+  <section id="screen-reflect" class="card" hidden>
+    <h2>What did you see?</h2>
+    <textarea id="observation" placeholder="Describe what happened, in your own words. Numbers help."></textarea>
+    <div class="row"><button id="btn-reflect" class="primary">Reflect</button></div>
+    <div class="error" id="err-reflect" role="alert"></div>
+    <div class="reflection" id="reflect-box" hidden>
+      <div class="party">🎉</div>
+      <div id="reflect-text"></div>
+    </div>
+    <div class="recap" id="recap" hidden>
+      <h3>Your lab notebook</h3>
+      <dl>
+        <dt>The wonder</dt><dd id="recap-wonder"></dd>
+        <dt>What you said</dt><dd><ul id="recap-answers"></ul></dd>
+        <dt>What you saw</dt><dd id="recap-seen"></dd>
+      </dl>
+      <div class="row"><button id="btn-restart" class="primary">Start a new wonder</button></div>
+    </div>
+  </section>
+</main>
+
+<script>
+const SCENARIOS = {
+  agriculture: [
+    { emoji: '🍅', text: 'Why do tomatoes spoil faster in a basket than in a cooler?' },
+    { emoji: '🌽', text: 'Why do farmers dry maize on a tarpaulin instead of on bare ground?' },
+    { emoji: '🍌', text: 'Why do plantains ripen faster when you wrap them in a bag?' }
+  ],
+  engineering: [
+    { emoji: '🏺', text: 'Why does water in a clay pot stay cooler than water in a plastic bucket?' },
+    { emoji: '🏠', text: 'Why is a room under a zinc roof hotter than a room with a ceiling?' },
+    { emoji: '🧊', text: 'Why does ice melt slower when you wrap it in a thick cloth?' }
+  ]
+};
+const MAX_ANSWERS = 3;
+const HINTS = [
+  'Ask me one short question about what I already know.',
+  'Ask me one short question about what I am assuming.',
+  'Ask me one short question about what I predict will happen.'
+];
+
+let scenario = '';
+let pool = [];
+let idx = 0;
+let history = [];
+let answers = 0;
+let myAnswers = [];
+
+const $ = id => document.getElementById(id);
+const clean = t => String(t || '').replace(/\*\*/g, '').replace(/^#+\s*/gm, '').trim();
+
+function setStage(n) {
+  document.querySelectorAll('#steps li').forEach(li => {
+    const i = Number(li.dataset.i);
+    li.className = n < 0 ? '' : (i < n ? 'done' : (i === n ? 'on' : ''));
+  });
+}
+function show(id, stage) {
+  document.querySelectorAll('main section').forEach(s => { s.hidden = s.id !== id; });
+  setStage(stage);
+  window.scrollTo({ top: 0 });
+}
+function updatePips() {
+  document.querySelectorAll('#pips i').forEach((el, i) => { el.className = i < answers ? 'full' : ''; });
+  $('pips-label').textContent = 'Answer ' + Math.min(answers + 1, MAX_ANSWERS) + ' of ' + MAX_ANSWERS;
+}
+function scrollChat() { const c = $('chat'); c.scrollTop = c.scrollHeight; }
+function busy(on) { $('typing').hidden = !on; if (on) scrollChat(); }
+function lockQuestion(on) {
+  $('btn-send').disabled = on;
+  document.querySelectorAll('.chip').forEach(c => { c.disabled = on; });
+}
+function addBubble(who, text) {
+  const d = document.createElement('div');
+  d.className = 'bubble ' + who;
+  const l = document.createElement('span');
+  l.className = 'who';
+  l.textContent = who === 'ai' ? 'WonderLab' : 'You';
+  const p = document.createElement('p');
+  p.textContent = text;
+  d.append(l, p);
+  $('chat').appendChild(d);
+  scrollChat();
+  return d;
+}
+
+async function callChat(step, userText, hint) {
+  history.push({ role: 'user', content: userText });
+  const sent = history.map((m, i) =>
+    (i === history.length - 1 && hint) ? { role: m.role, content: m.content + ' (' + hint + ')' } : m
+  );
+  try {
+    const res = await fetch('/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ step, scenario, history: sent })
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(data.error || 'Something went wrong. Please try again.');
+    history.push({ role: 'assistant', content: data.reply });
+    return data.reply;
+  } catch (e) {
+    history.pop();
+    throw new Error(e.message || 'Could not reach the server.');
+  }
+}
+
+function pickScenario() {
+  const s = pool[idx % pool.length];
+  scenario = s.text;
+  $('scenario-text').textContent = s.text;
+  $('wonder-emoji').textContent = s.emoji;
+}
+
+document.querySelectorAll('[data-interest]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const key = btn.dataset.interest;
+    pool = key === 'discover' ? [...SCENARIOS.agriculture, ...SCENARIOS.engineering] : [...SCENARIOS[key]];
+    pool.sort(() => Math.random() - 0.5);
+    idx = 0;
+    pickScenario();
+    show('screen-wonder', 0);
+  });
+});
+$('btn-shuffle').addEventListener('click', () => { idx++; pickScenario(); });
+
+async function startQuestions() {
+  history = []; answers = 0; myAnswers = [];
+  $('chat').innerHTML = '';
+  $('err-question').textContent = '';
+  $('btn-retry').hidden = true;
+  updatePips();
+  show('screen-question', 1);
+  lockQuestion(true);
+  busy(true);
+  try {
+    const reply = await callChat('question', 'I am curious about this: ' + scenario + ' Please start.', HINTS[0]);
+    addBubble('ai', clean(reply));
+  } catch (e) {
+    $('err-question').textContent = e.message;
+    $('btn-retry').hidden = false;
+  }
+  busy(false);
+  lockQuestion(false);
+}
+$('btn-begin').addEventListener('click', startQuestions);
+$('btn-retry').addEventListener('click', startQuestions);
+
+document.querySelectorAll('.chip').forEach(c => {
+  c.addEventListener('click', () => {
+    const a = $('answer');
+    if (!a.value.trim()) a.value = c.dataset.prefix;
+    a.focus();
+  });
+});
+
+async function send() {
+  const text = $('answer').value.trim();
+  $('err-question').textContent = '';
+  if (history.length === 0) return;
+  if (!text) { $('err-question').textContent = 'Type your answer first. A guess is fine.'; return; }
+  lockQuestion(true);
+  const bubble = addBubble('you', text);
+  $('answer').value = '';
+  answers++;
+  myAnswers.push(text);
+  updatePips();
+  busy(true);
+  try {
+    if (answers < MAX_ANSWERS) {
+      addBubble('ai', clean(await callChat('question', text, HINTS[answers])));
+    } else {
+      $('experiment-text').textContent = clean(await callChat('experiment', text));
+      show('screen-experiment', 2);
+    }
+  } catch (e) {
+    bubble.remove();
+    $('answer').value = text;
+    answers--;
+    myAnswers.pop();
+    updatePips();
+    $('err-question').textContent = e.message;
+  }
+  busy(false);
+  lockQuestion(false);
+}
+$('btn-send').addEventListener('click', send);
+$('answer').addEventListener('keydown', e => {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); }
+});
+
+$('btn-simpler').addEventListener('click', async () => {
+  const btn = $('btn-simpler');
+  $('err-experiment').textContent = '';
+  btn.disabled = true;
+  btn.textContent = 'Thinking…';
+  try {
+    $('experiment-text').textContent = clean(await callChat('experiment', 'That is too hard for me. Please make the experiment simpler and cheaper.'));
+  } catch (e) {
+    $('err-experiment').textContent = e.message;
+  }
+  btn.disabled = false;
+  btn.textContent = 'Make it simpler';
+});
+
+$('btn-done').addEventListener('click', () => show('screen-reflect', 3));
+
+$('btn-reflect').addEventListener('click', async () => {
+  const text = $('observation').value.trim();
+  $('err-reflect').textContent = '';
+  if (!text) { $('err-reflect').textContent = 'Describe what you saw first.'; return; }
+  const btn = $('btn-reflect');
+  btn.disabled = true;
+  btn.textContent = 'Thinking…';
+  try {
+    $('reflect-text').textContent = clean(await callChat('reflect', text));
+    $('reflect-box').hidden = false;
+    $('recap-wonder').textContent = scenario;
+    $('recap-seen').textContent = text;
+    const ul = $('recap-answers');
+    ul.innerHTML = '';
+    myAnswers.forEach(a => { const li = document.createElement('li'); li.textContent = a; ul.appendChild(li); });
+    $('recap').hidden = false;
+    $('observation').disabled = true;
+    btn.hidden = true;
+    setStage(4);
+  } catch (e) {
+    $('err-reflect').textContent = e.message;
+  }
+  btn.disabled = false;
+  btn.textContent = 'Reflect';
+});
+
+$('btn-restart').addEventListener('click', () => location.reload());
+</script>
+</body>
+</html>
