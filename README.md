@@ -135,8 +135,8 @@ Contributions are welcome. Open an issue or a pull request. By contributing you 
 
 ## Team
 
-- **Precious**, Computer Science Student, Obafemi Awolowo University. Backend, model integration, front end and repository.
-- **Araba Mary.**, Computer Science Student, Obafemi Awolowo University. Prompts and scenarios, student testing, test log, problem statement and demo story.
+- **Precious Afolabi**, Computer Science Student, Obafemi Awolowo University. Backend, model integration, front end and repository.
+- **Mary Araba**, Computer Science Student, Obafemi Awolowo University. Initial idea conception, problem identification and definition, prompt and scenario design, student testing and validation, test documentation, and demo story development.
 
 ## Licence
 
