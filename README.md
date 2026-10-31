@@ -6,11 +6,11 @@ WonderLab is a guided AI experience that helps a university student practise not
 
 Built for OPEN//BUILD 2026 by Open Source Community Africa, Ile Ife (part of Hacktoberfest 2026).
 
-## The problem
+## The problem (a hypothesis, not a proven claim)
 
 Some university students may struggle to turn everyday observations or personal interests into questions they want to investigate, experiments they can try, or ideas they can develop. They need an engaging, guided way to practise asking questions, exploring possibilities and testing their thinking, not just receiving ready made answers.
 
-We want to be clear about what we know. This is a starting hypothesis. We did not assume that Nigerians or Nigerian students lack curiosity, and people across Nigeria already solve problems every day. Any testing with students is small, and it can show usability problems but cannot show that WonderLab increases curiosity. What we have tested and what we saw is written down in [docs/testing.md](docs/testing.md).
+We want to be clear about what we know. This is a starting hypothesis. We did not assume that Nigerians or Nigerian students lack curiosity, and people across Nigeria already solve problems every day. We have not yet tested WonderLab with real students, so we cannot say whether it helps. What we have tested, and what we found, is in [docs/testing.md](docs/testing.md).
 
 ## Who it is for
 
@@ -19,7 +19,7 @@ University students who are curious but do not always know what to explore or ho
 ## How it works
 
 | Screen | What happens | What the model does |
-| --- | --- | --- |
+|---|---|---|
 | 1. Start | The student chooses Agriculture, Everyday engineering or Help me discover, or types their own wonder. | Nothing. |
 | 2. Wonder | One local scenario is shown, with a shuffle button. | Nothing. The scenarios are written in the page. |
 | 3. Question | Three short follow ups, one at a time: what do you know, what do you assume, what do you predict. | Gives a small clue and asks the next question from the student's last answer. |
@@ -40,7 +40,7 @@ We have not done a full survey of similar learning and curiosity products, so we
 ## The model
 
 | | Model | Host | Licence |
-| --- | --- | --- | --- |
+|---|---|---|---|
 | Primary | Gemma 4 26B A4B instruct (`google/gemma-4-26b-a4b-it`) | OpenRouter | Apache 2.0 |
 | Backup | gpt-oss 120B (`openai/gpt-oss-120b`) | Groq | Apache 2.0 |
 
@@ -72,7 +72,7 @@ Start the app and open it in a browser.
 npm start
 ```
 
-Then go to <http://localhost:3000>.
+Then go to http://localhost:3000.
 
 Run the tests. They use fake keys, so they need no real keys and cost nothing.
 
@@ -108,11 +108,18 @@ The system prompt refuses experiments involving electricity, fire, chemicals, me
 
 ## Testing
 
-We test in four ways: automated tests (`npm test`), scripted full conversations through the real server, model comparisons, and short sessions with students. The method, the results and the history of our prompt changes are in [docs/testing.md](docs/testing.md). We report small tests as small tests.
+We have tested in three ways: automated tests (`npm test`), scripted full conversations through the real server, and comparisons of several models on the same prompts. One teammate also used the first build and gave feedback. **We have not yet run sessions with real students.** The method, what we found and the history of our prompt changes are in [docs/testing.md](docs/testing.md).
 
 ## Known limitations
 
-Short version: testing was small, the model can give wrong or off topic replies, the safety word list is blunt, and game or app topics produce weak experiments. The full list is in [docs/limitations.md](docs/limitations.md).
+Short version: we have not tested with students, the model can give wrong, unclear or even invented replies (including inventing a result the student never reported), the safety word list is blunt, and game or app topics produce weak experiments. The full list is in [docs/limitations.md](docs/limitations.md).
+
+## Who did what
+
+Both team members worked on WonderLab. The git history does not show this, and we want to be clear about why. All commits come from Precious's GitHub account because she built the app and owns the repository. Araba Mary's work was done in documents, messages and review, and Precious applied it to the repository.
+
+- **Araba Mary** came up with WonderLab and defined the problem: people stop noticing everyday problems because they see them every day, and cannot question or improve what they do not notice. She wrote the project concept and the build plan (with help from Claude), designed the screen flow, mock up and wording and the questions (with help from Claude), brought the shortlist of open weight models, tested the first build once and gave feedback, recorded the demo video, and answered the problem and idea parts of the submission form.
+- **Precious** (Computer Science (Mathematics), Obafemi Awolowo University) built the app: the server, the front end, the model integration, the model comparisons and the tests, the deployment and the GitHub repository, and made the commits. She answered the build parts of the submission form and submitted it.
 
 ## Acknowledgements and AI assisted work
 
@@ -120,23 +127,18 @@ Short version: testing was small, the model can give wrong or off topic replies,
 - **Hosts:** OpenRouter and Groq.
 - **Libraries:** Express (MIT) and dotenv (BSD 2 Clause).
 - **Fonts:** Fraunces, Instrument Sans and IBM Plex Mono, loaded from Google Fonts. Each is released under the SIL Open Font License.
-- **Our own work:** The concept, the problem statement and the testing plan were written by the team. The wording of the start and wonder screens, the ten scenarios, the lab notebook labels and the safety and privacy rules came from Araba Mary's design.
-- **AI assisted work, disclosed in detail:** We used Claude (by Anthropic) as a coding and writing assistant. Claude helped write `server.js`, `public/index.html` (the design and the code), drafts of the system prompts in `prompts/`, the helper scripts in `scripts/`, the tests in `tests/`, and the first drafts of these documents. We reviewed, tested and edited this work, ran the model comparisons described in `docs/model.md`, and made the final choices about models, scenarios and safety rules.
+- **AI assisted work, disclosed in detail:** We used Claude (by Anthropic) throughout. Araba Mary used it to help write the project concept note, the build plan and the mock up wording and questions, and she reviewed them. Precious used it as a coding and writing assistant. Claude helped write `server.js`, `public/index.html` (the design and the code), drafts of the system prompts in `prompts/`, the helper scripts in `scripts/`, the tests in `tests/`, and the first drafts of the README and the documents in `docs/`. We reviewed, tested and edited this work, and we made the final choices about the models and the scope.
 
 ## Future work and how to contribute
 
-- Test with more students and report the results, including when WonderLab does not help.
-- Let the notebook record which answer was a fact, an assumption or a prediction, instead of showing them in order.
+- Test with real students and report the results, including when WonderLab does not help.
+- Make the Reflect step ask for a specific observation when the student gives none, instead of guessing.
+- Let the notebook show each question next to the answer, and record which answer was a fact, an assumption or a prediction.
 - Add more interest areas and local languages.
 - Support topics about software and games with experiments that fit them.
 - Replace the word list safety check with something better.
 
 Contributions are welcome. Open an issue or a pull request. By contributing you agree your work is released under the MIT licence.
-
-## Team
-
-- **Precious**, Computer Science Student, Obafemi Awolowo University. Backend, model integration, front end and repository.
-- **Araba Mary.**, Computer Science Student, Obafemi Awolowo University. Prompts and scenarios, student testing, test log, problem statement and demo story.
 
 ## Licence
 

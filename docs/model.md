@@ -7,7 +7,7 @@
 | Primary | Gemma 4 26B A4B instruct, `google/gemma-4-26b-a4b-it` | OpenRouter | Answers all model calls. |
 | Backup | gpt-oss 120B, `openai/gpt-oss-120b` | Groq | Used only if the primary fails or takes longer than 20 seconds. |
 
-Both are open weight models, used through hosted APIs. We did not self host because the team has no GPU and the deadline was short.
+Both are open weight models, used through hosted APIs. We did not self host because the team has no GPU and the deadline was short. Araba Mary brought the first shortlist of open weight models, and Precious ran the comparisons below.
 
 ## What the model does in WonderLab
 
@@ -32,22 +32,23 @@ The raw outputs are in `docs/model-comparison.txt` and `docs/model-comparison-2.
 
 ## Licences
 
-| Model | Licence | Source |
+| Model | Licence | Where to check |
 |---|---|---|
-| Gemma 4 | Apache 2.0 | [[FILL IN: link to the official model card or Google's announcement, and confirm the licence name from that page]] |
-| gpt-oss 120B | Apache 2.0 | [[FILL IN: link to OpenAI's model page or the Hugging Face model card]] |
+| Gemma 4 | Apache 2.0 | Reported at release by [The Register](https://www.theregister.com/2026/04/02/googles_gemma_4_open_weights/) and [AlternativeTo](https://alternativeto.net/news/2026/4/google-releases-gemma-4-open-weight-ai-models-with-apache-2-0-license). Model page: https://huggingface.co/google/gemma-4-26B-A4B-it |
+| gpt-oss 120B | Apache 2.0 | Model page: https://huggingface.co/openai/gpt-oss-120b |
 
-Open weights do not automatically mean open source, so we checked the licence of each model we use. We also read the hosts' own terms: [[FILL IN: OpenRouter terms link and Groq terms link, and one sentence on anything that limits this use]].
+Open weights do not automatically mean open source, so we checked the licence of each model we use. We have not reviewed the hosts' terms of service in detail beyond using their public APIs under the standard terms, and anyone reusing this should read them.
 
 Qwen 3.8 27B was tested but is not used, so we did not need to confirm its licence.
 
 ## Hosted API question
 
-The challenge brief does not say whether using an open weight model through a hosted API counts. We read the brief as allowing existing APIs as resources. [[FILL IN: what the organisers answered in the WhatsApp group, or write "we asked and have not had an answer"]]
+The challenge brief does not say whether using an open weight model through a hosted API counts. We read the brief as allowing existing APIs as resources. We did not get a confirmed answer from the organisers, so this is our reading.
 
 ## Limitations of the models
 
 - They can state wrong facts with confidence. The page shows a reminder, and the prompt asks the model to remind students to check claims.
+- They can invent a result the student never reported, especially when the student gives no concrete observation. See [limitations.md](limitations.md).
 - They sometimes ask two questions, drift to an unrelated example, or offer empty praise, even with the prompt rules. The rules reduce this but do not remove it.
-- The app depends on two hosted services. If both are down, the student sees a friendly error and cannot continue. [[FILL IN: mention the free tier limits you found for OpenRouter and Groq]]
+- The app depends on two hosted services. If both are down, the student sees a friendly error and cannot continue. We did not measure the hosts' free tier limits.
 - Reply quality changes between runs because the models are not deterministic.

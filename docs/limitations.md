@@ -4,7 +4,7 @@ We list these so you do not have to find them yourself.
 
 ## About the evidence
 
-- **The student test was small.** We tried WonderLab with [[FILL IN: N]] students. That can reveal usability problems. It cannot show that WonderLab increases curiosity, and we do not claim it does.
+- **The student test was small.** We tried WonderLab with two students. That can reveal usability problems. It cannot show that WonderLab increases curiosity, and we do not claim it does.
 - **Model comparisons were small.** Five prompts, two runs each, counted by hand. Results change between runs.
 - **We have not validated the problem.** The problem statement is a hypothesis.
 - **We have not done a full survey of similar products,** so we make no claim that the idea is original.
@@ -33,6 +33,6 @@ We list these so you do not have to find them yourself.
 
 ## About the system
 
-- **Two hosts, both outside our control.** If both are down or rate limited, the student sees "Something went wrong. Please try again in a moment." and cannot continue. [[FILL IN: free tier limits you found]]
+- **Two hosts, both outside our control.** If both are down or rate limited, the student sees "Something went wrong. Please try again in a moment." and cannot continue.
 - **Fonts load from Google Fonts.** Offline, the page falls back to system fonts and looks plainer.
-- **Tested on:** [[FILL IN: browsers and devices you actually tried, for example Chrome on Windows and Android]]. We did not test other browsers.
+- **Tested on:** Chrome on Windows and Android
